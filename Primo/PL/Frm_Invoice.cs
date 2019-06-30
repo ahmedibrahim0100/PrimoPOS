@@ -22,10 +22,19 @@ namespace Primo.PL
         DataTable maindt = new DataTable();
         DataTable dt = new DataTable();
         Cls_Items Cls = new Cls_Items();
+        DateTime lastItemAddedTime;
+        
+
+        //The next 2 lines are related to the process of picking the barcode from the scanner
+        //          and will be used in Frm_Invoice.Keypress eventhandler 
+        //              The process's other sections are found in the constructor and the eventhandler
+        DateTime _lastKeystroke = new DateTime(0);
+        List<char> _barcode = new List<char>();
+
 
         #region Get Control on this form from other forms
         //The following lines are to get a control of Frm_Invoice from other forms
-        //without creating an instance..I took these codes from Khaled Alsaadany course
+        //without creating an instance
         private static Frm_Invoice _Frm_Invoice;
         static void _Frm_Invoice_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -55,6 +64,12 @@ namespace Primo.PL
             {
                 _Frm_Invoice = this;
             }
+
+            //related to the process of picking the barcode from the scanner
+            //and will be used in Frm_Invoice.Keypress eventhandler
+            //The process other sections are found in the member variables declaration and the eventhandler
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Frm_Invoice_KeyPress);
+
             BuildMainDataTable();
             this.Text = string.Format("INVOICE  - {0}",Program.username);
             lblSellerName.Text = Program.username;
@@ -62,7 +77,7 @@ namespace Primo.PL
             lblUserID.Text = Program.userID;
             lblCustomerCode.Text = "1";
             dgvTransaction.CellEndEdit += dataGridView1_CellEndEdit;
-            this.KeyPreview = false;
+            this.KeyPreview = true;
         }
 
        
@@ -83,6 +98,11 @@ namespace Primo.PL
             maindt.Columns.Add("Taxes");
             maindt.Columns.Add("Total");
             dgvTransaction.DataSource = maindt;
+            dgvTransaction.Columns[0].ReadOnly = true;
+            dgvTransaction.Columns[1].ReadOnly = true;
+            dgvTransaction.Columns[2].ReadOnly = true;
+            dgvTransaction.Columns[5].ReadOnly = true;
+            dgvTransaction.Columns[9].ReadOnly = true;
         }
 
         private void CalculateSum()
@@ -307,21 +327,28 @@ namespace Primo.PL
 
         public void SaveInvoiceData()
         {
+            //Updating quantities
+
+            UpdateItemsQuantities();
+
+
+            //Filling tb_transactions_Master
+
             Cls_Transactions _Cls_Transactions = new Cls_Transactions();
             
-            //Filling tb_transactions_Master
 
             _Cls_Transactions.InsertTransaction_Master(GetTransactionType(), DateTime.Now, lblUserID.Text, Convert.ToInt32(lblCustomerCode.Text),
                 Convert.ToDecimal(txtbxFinalTotal.Text), CountOfItems(), GetNoOfPcs());
 
 
+            //Filling tb_Transactions_Items
+
             int transactionNo = _Cls_Transactions.GetTransactionNo();
            
-            //Filling tb_Transactions_Items
 
             for (int i = 0; i < dgvTransaction.Rows.Count; i++)
             {
-                _Cls_Transactions.InsertTransactionItems(transactionNo, (int)dgvTransaction.Rows[i].Cells[0].Value, 
+                _Cls_Transactions.InsertTransactionItems(transactionNo, Convert.ToInt32(dgvTransaction.Rows[i].Cells[0].Value), 
                     Convert.ToDateTime(dgvTransaction.Rows[i].Cells[2].Value),
                     Convert.ToDecimal(dgvTransaction.Rows[i].Cells[3].Value),
                     Convert.ToDecimal(dgvTransaction.Rows[i].Cells[4].Value),
@@ -333,17 +360,81 @@ namespace Primo.PL
 
         }
 
+        private void AddtoDgvTransactions()
+        {
+            dt = Cls.SelectItem(txtbxItemIdentification.Text);
+
+            if (dt.Rows.Count == 1)
+            {
+                DataRow r = maindt.NewRow();
+                r = TakeDataToMaindt();
+                maindt.Rows.Add(r);
+                dgvTransaction.DataSource = maindt;
+                CalculateSum();
+                txtbxItemIdentification.Clear();
+                CheckExpireDate(r);
+                txtbxItemIdentification.Focus();
+
+            }
+            else if (dt.Rows.Count > 1)
+            {
+                popupPickItem.Visible = true;
+                dgvPickItem.DataSource = dt;
+                dgvPickItem.Focus();
+            }
+            else if (dt.Rows.Count < 1)
+            {
+                MessageBox.Show("not found");
+            }
+
+            lastItemAddedTime = DateTime.Now;
+
+            //CalculateSum();
+        }
+
         #endregion
 
 
         #region Frm_Invoice eventhandlers
         private void Frm_Invoice_Load(object sender, EventArgs e)
         {
-            txtbxItemIdentification.Focus();
+            //txtbxItemIdentification.Focus();
         }
 
         private void Frm_Invoice_KeyDown(object sender, KeyEventArgs e)
         {
+
+        }
+
+        private void Frm_Invoice_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // check timing (keystrokes within 100 ms)
+            TimeSpan elapsed = (DateTime.Now - _lastKeystroke);
+            if (elapsed.TotalMilliseconds > 100)
+            {
+                _barcode.Clear();
+            }
+
+            // record keystroke & timestamp
+            _barcode.Add(e.KeyChar);
+            _lastKeystroke = DateTime.Now;
+
+            TimeSpan addItemInterval = DateTime.Now - lastItemAddedTime;
+            
+            if(addItemInterval.TotalMilliseconds > 100)
+            {
+                // process barcode
+                if (e.KeyChar == 13 && _barcode.Count > 1)
+                {
+                    _barcode.RemoveAt(_barcode.Count - 1);
+                    string msg = new String(_barcode.ToArray());
+                    txtbxItemIdentification.Text = msg;
+                    AddtoDgvTransactions();
+                    //MessageBox.Show(msg);
+                    _barcode.Clear();
+                }
+            }
+            
 
         }
         #endregion
@@ -359,13 +450,15 @@ namespace Primo.PL
             decimal item_discount = Convert.ToDecimal(dgvTransaction.CurrentRow.Cells[7].Value);
             decimal taxes = Convert.ToDecimal(dgvTransaction.CurrentRow.Cells[8].Value);
 
-
+            //if Discount value changed: calculate discount% ,then total, then sum of transaction
             if (e.ColumnIndex == 7)
             {
                 dgvTransaction.CurrentRow.Cells[6].Value = (item_discount / (item_quantity * item_price)) * 100;
                 dgvTransaction.CurrentRow.Cells[9].Value = (item_quantity * item_price) - item_discount + taxes;
                 CalculateSum();
             }
+
+            //if Discount% changed: calculate Discount value ,then total, then sum of transaction
             if (e.ColumnIndex == 6)
             {
                 dgvTransaction.CurrentRow.Cells[7].Value = ((item_discount_percentage) * (item_quantity * item_price)) / 100;
@@ -373,37 +466,20 @@ namespace Primo.PL
                 CalculateSum();
             }
 
+            //after any of the previous cases or in any other case: calculate total, then sum of transaction
             dgvTransaction.CurrentRow.Cells[9].Value = (item_quantity * item_price) - item_discount + taxes;
             CalculateSum();
-        }
-
-        private void dataGridView1_RowValidated(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dgvTransaction.Rows.Remove(dgvTransaction.CurrentRow);
+            CalculateSum();
         }
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
+            
             if (e.Control && e.KeyCode == Keys.Delete)
             {
                 deleteToolStripMenuItem_Click(sender, e);
@@ -466,38 +542,15 @@ namespace Primo.PL
         /// <param name="e"></param>
         private void txtbxItemIdentification_KeyDown(object sender, KeyEventArgs e)
         {
-            //Cls_Items Cls = new Cls_Items();
-            //DataTable dt = new DataTable();
+
             //dt = Cls.SelectItem(txtbxItemIdentification.Text);
             if (e.KeyCode == Keys.Enter)
             {
-                dt = Cls.SelectItem(txtbxItemIdentification.Text);
-
-                if (dt.Rows.Count == 1)
-                {
-
-                    DataRow r = maindt.NewRow();
-                    r = TakeDataToMaindt();
-                    maindt.Rows.Add(r);
-                    dgvTransaction.DataSource = maindt;
-                    CalculateSum();
-                    txtbxItemIdentification.Clear();
-                    CheckExpireDate(r);
-                    txtbxItemIdentification.Focus();
-
-                }
-                else if (dt.Rows.Count > 1)
-                {
-                    popupPickItem.Visible = true;
-                    dgvPickItem.DataSource = dt;
-                    CalculateSum();
-                    dgvPickItem.Focus();
-                }
-
-                CalculateSum();
+                AddtoDgvTransactions();
             }
-
         }
+
+
         #endregion
 
         #region panelTotals eventhandlers
@@ -536,7 +589,7 @@ namespace Primo.PL
         {
             CalculatetxtbxDiscValue();
             CalculatetxtbxFinalTotal();
-            btnTender.Focus();
+            
         }
 
         //for lblSum -- empty
@@ -634,13 +687,30 @@ namespace Primo.PL
 
         private void btnQuickTender_Click(object sender, EventArgs e)
         {
-
-
+            if (dgvTransaction.Rows.Count > 0 && (radioOnTime.Checked == true | radioDelivery.Checked == true))
+            {
+                SaveInvoiceData();
+                Cls_Transactions _Cls_Transactions = new Cls_Transactions();
+                _Cls_Transactions.InsertTotb_Transactions_Payment(_Cls_Transactions.GetTransactionNo(), Convert.ToDecimal(txtbxFinalTotal.Text),
+                    "cash", null, null, null);
+                this.Enabled = false;
+                this.Hide();
+                Frm_Invoice _Frm_Invoice = new Frm_Invoice();
+                _Frm_Invoice.MdiParent = Frm_Main.GetFrm_Main;
+                _Frm_Invoice.Dock = DockStyle.Fill;
+                _Frm_Invoice.Show();
+                this.Close();
+            }
+            else
+            {
+                Frm_TenderError _Frm_TenderError = new Frm_TenderError();
+                _Frm_TenderError.ShowDialog(this);
+            }
         }
 
         #endregion
 
-        #region grbbxSeller eventhandlers
+            #region grbbxSeller eventhandlers
 
         private void txtbxSellerID_Validated(object sender, EventArgs e)
         {
@@ -790,6 +860,7 @@ namespace Primo.PL
                     picboxInvalidContractor.Visible = false;
                     lblContractorName.Text = dt_contractors.Rows[0][1].ToString();
                     lblContractorName.Visible = true;
+                    lblContractorCode.Text = dt_contractors.Rows[0][0].ToString();
                 }
                 else if (dt_contractors.Rows.Count > 1)
                 {
@@ -813,6 +884,7 @@ namespace Primo.PL
                 picboxInvalidContractor.Visible = false;
                 lblContractorName.Text = dgvContractors.CurrentRow.Cells[1].Value.ToString();
                 lblContractorName.Visible = true;
+                lblContractorCode.Text = dgvContractors.CurrentRow.Cells[0].Value.ToString();
                 popupContractors.Visible = false;
             }
         }
@@ -822,6 +894,7 @@ namespace Primo.PL
             picboxInvalidContractor.Visible = false;
             lblContractorName.Text = dgvContractors.CurrentRow.Cells[1].Value.ToString();
             lblContractorName.Visible = true;
+            lblContractorCode.Text = dgvContractors.CurrentRow.Cells[0].Value.ToString();
             popupContractors.Visible = false;
         }
 
@@ -830,6 +903,7 @@ namespace Primo.PL
             picboxInvalidContractor.Visible = false;
             lblContractorName.Text = dgvContractors.CurrentRow.Cells[1].Value.ToString();
             lblContractorName.Visible = true;
+            lblContractorCode.Text = dgvContractors.CurrentRow.Cells[0].Value.ToString();
             popupContractors.Visible = false;
         }
 

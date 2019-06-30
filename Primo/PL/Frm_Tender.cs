@@ -19,6 +19,8 @@ namespace Primo.PL
 {
     public partial class Frm_Tender : Syncfusion.Windows.Forms.MetroForm
     {
+        public bool CreditInvoice { get; set; } = false;
+
         public Frm_Tender()
         {
             InitializeComponent();
@@ -30,10 +32,52 @@ namespace Primo.PL
 
         #region Functions
 
-            private void CalculatetxtbxPaid()
+        private void CalculatetxtbxPaid()
         {
             txtbxPaid.Text = (Convert.ToDecimal(txtbxCash.Text)+Convert.ToDecimal(txtbxCard_1.Text)+
                 Convert.ToDecimal(txtbxCard_2.Text)+Convert.ToDecimal(txtbxCard_3.Text)).ToString();
+        }
+
+        private decimal GetCashPayment()
+        {
+            return Convert.ToDecimal(txtbxCash.Text) - Convert.ToDecimal(txtbxChange.Text);
+        }
+
+        private void InsertPayments()
+        {
+            Cls_Transactions _Cls_Transactions = new Cls_Transactions();
+            int transactionNo = _Cls_Transactions.GetTransactionNo();
+            if (CreditInvoice == true)
+            {
+                _Cls_Transactions.InsertTotb_Transactions_Payment(transactionNo, Convert.ToDecimal(Frm_TenderCredit.GetFrm_TenderCredit.txtbxContractorPaysValue.Text),
+"credit", Convert.ToInt32(Frm_Invoice.GetFrm_Invoice.lblContractorCode.Text), null, null);
+            }
+            if(Convert.ToDecimal(txtbxCash.Text) > 0)
+            {
+                _Cls_Transactions.InsertTotb_Transactions_Payment(transactionNo, GetCashPayment(),
+                    "cash", null, null, null);
+            }
+            if(Convert.ToDecimal(txtbxCard_1.Text) > 0)
+            {
+                _Cls_Transactions.InsertTotb_Transactions_Payment(transactionNo, Convert.ToDecimal(txtbxCard_1.Text),
+                    "card", null, txtbxCardNo.Text, txtbxBank.Text);
+            }
+            if (Convert.ToDecimal(txtbxCard_2.Text) > 0)
+            {
+                _Cls_Transactions.InsertTotb_Transactions_Payment(transactionNo, Convert.ToDecimal(txtbxCard_2.Text),
+                    "card", null, txtbxCardNo_2.Text, txtbxBank_2.Text);
+            }
+            if (Convert.ToDecimal(txtbxCard_3.Text) > 0)
+            {
+                _Cls_Transactions.InsertTotb_Transactions_Payment(transactionNo, Convert.ToDecimal(txtbxCard_3.Text),
+                    "card", null, txtbxCardNo_3.Text, txtbxBank_3.Text);
+            }
+            if(Convert.ToDecimal(txtbxCredit.Text) > 0)
+            {
+                _Cls_Transactions.InsertTotb_Transactions_Payment(transactionNo, Convert.ToDecimal(txtbxCredit.Text),
+                    "credit", Convert.ToInt32(lblContractorCode.Text), null, null);
+            }
+
         }
 
         #endregion
@@ -62,16 +106,19 @@ namespace Primo.PL
         #region btnConfirm & btnCancel
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            if (Convert.ToDecimal(txtbxChange) == 0 | Convert.ToDecimal(txtbxChange.Text) > 0)
+            if (Convert.ToDecimal(txtbxChange.Text) >= 0 )
             {
-                if (txtbxCredit.Text != "0" && lblContractorName.Text == "Contractor Name")
+                if (Convert.ToDecimal(txtbxCredit.Text) != 0 && Convert.ToDecimal(lblContractorCode.Text) == 0)
                 {
-                    MessageBox.Show("Choose Contractor");
+                    Frm_ContractorError _Frm_ContractorError = new Frm_ContractorError();
+                    _Frm_ContractorError.ShowDialog(this);
                 }
-                else {
+                else
+                {
                     Hide();
 
-                    Frm_Invoice.GetFrm_Invoice.UpdateItemsQuantities();
+                    Frm_Invoice.GetFrm_Invoice.SaveInvoiceData();
+                    InsertPayments();
                     Frm_Invoice.GetFrm_Invoice.Enabled = false;
                     Frm_PrintQuestion _Frm_PrintQuestion = new Frm_PrintQuestion();
                     _Frm_PrintQuestion.ShowDialog(Frm_Invoice.GetFrm_Invoice);
@@ -149,6 +196,7 @@ namespace Primo.PL
                 {
                     picboxInvalidContractor.Visible = false;
                     lblContractorName.Text = dt_contractors.Rows[0][1].ToString();
+                    lblContractorCode.Text = dt_contractors.Rows[0][0].ToString();
                     lblContractorName.Visible = true;
                 }
                 else if (dt_contractors.Rows.Count > 1)
@@ -171,6 +219,7 @@ namespace Primo.PL
             {
                 picboxInvalidContractor.Visible = false;
                 lblContractorName.Text = dgvContractors.CurrentRow.Cells[1].Value.ToString();
+                lblContractorCode.Text = dgvContractors.CurrentRow.Cells[0].Value.ToString();
                 lblContractorName.Visible = true;
                 popupContractors.Visible = false;
             }
@@ -180,6 +229,7 @@ namespace Primo.PL
         {
             picboxInvalidContractor.Visible = false;
             lblContractorName.Text = dgvContractors.CurrentRow.Cells[1].Value.ToString();
+            lblContractorCode.Text = dgvContractors.CurrentRow.Cells[0].Value.ToString();
             lblContractorName.Visible = true;
             popupContractors.Visible = false;
         }
@@ -188,6 +238,7 @@ namespace Primo.PL
         {
             picboxInvalidContractor.Visible = false;
             lblContractorName.Text = dgvContractors.CurrentRow.Cells[1].Value.ToString();
+            lblContractorCode.Text = dgvContractors.CurrentRow.Cells[0].Value.ToString();
             lblContractorName.Visible = true;
             popupContractors.Visible = false;
         }

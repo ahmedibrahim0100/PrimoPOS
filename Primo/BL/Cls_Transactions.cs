@@ -49,37 +49,7 @@ namespace Primo.BL
             DAL.CloseCon();
         }
 
-//        ALTER proc[dbo].[InsertTransactionItems]
-//        @transaction_no int,
-//@item_auto_code int,
-//@expiry date,
-//@transaction_item_quantity decimal(10,3),
-//@price decimal(10,3),
-//@discount_percentage decimal(10,3),
-//@discount decimal(10,3),
-//@taxes decimal(10,3),
-//@total decimal(10,3)
-//As
-//INSERT INTO tb_Transactions_Items
-//           ([transaction_no]
-//           , [item_auto_code]
-//           , [expiry]
-//           , [transaction_item_quantity]
-//           , [price]
-//           , [discount_percentage]
-//           , [discount]
-//           , [taxes]
-//           , [total])
-//     VALUES
-//           (@transaction_no,
-//            @item_auto_code,
-//            @expiry,
-//            @transaction_item_quantity,
-//            @price,
-//            @discount_percentage,
-//            @discount,
-//            @taxes,
-//            @total)
+      
 
 
             /// <summary>
@@ -104,13 +74,13 @@ namespace Primo.BL
             param[2].Value = expiry;
             param[3] = new SqlParameter("@transaction_item_quantity", SqlDbType.Decimal);
             param[3].Value = transaction_item_quantity;
-            param[4].Value = new SqlParameter("@price", SqlDbType.Decimal);
+            param[4] = new SqlParameter("@price", SqlDbType.Decimal);
             param[4].Value = price;
-            param[5].Value = new SqlParameter("@discount_percentage", SqlDbType.Decimal);
+            param[5] = new SqlParameter("@discount_percentage", SqlDbType.Decimal);
             param[5].Value = discount_percentage;
-            param[6].Value = new SqlParameter("@discount", SqlDbType.Decimal);
+            param[6] = new SqlParameter("@discount", SqlDbType.Decimal);
             param[6].Value = discount;
-            param[7].Value = new SqlParameter("@taxes", SqlDbType.Decimal);
+            param[7]= new SqlParameter("@taxes", SqlDbType.Decimal);
             param[7].Value = taxes;
             param[8] = new SqlParameter("@total", SqlDbType.Decimal);
             param[8].Value = total;
@@ -121,10 +91,7 @@ namespace Primo.BL
 
 
 
-
-        /*create proc GetTransactionNo
-As
-Select MAX(transaction_no) from tb_Transactions_Master*/
+        
 
             /// <summary>
             /// Function to get the last transaction number from tb_Transactions_Master
@@ -139,6 +106,40 @@ Select MAX(transaction_no) from tb_Transactions_Master*/
             dt = DAL.SelectData("GetTransactionNo", null);
             DAL.CloseCon();
             return transactionNo = (int)dt.Rows[0][0];
+        }
+
+        /*
+         * create proc InsertTotb_Transactions_Payment
+@transaction_no int,
+@payment_amount decimal(10,3),
+@payment_type varchar(30),
+@contractor_code int
+As
+
+          */
+
+        public void InsertTotb_Transactions_Payment(int transaction_no, decimal payment_amount, string payment_type, int? contractor_code,
+            string card_no, string bank)
+        {
+            Cls_DataAccessLayer DAL = new Cls_DataAccessLayer();
+            DAL.OpenCon();
+
+            SqlParameter[] param = new SqlParameter[6];
+            param[0] = new SqlParameter("@transaction_no", SqlDbType.Int);
+            param[0].Value = transaction_no;
+            param[1] = new SqlParameter("@payment_amount", SqlDbType.Decimal);
+            param[1].Value = payment_amount;
+            param[2] = new SqlParameter("@payment_type", SqlDbType.VarChar, 30);
+            param[2].Value = payment_type;
+            param[3] = new SqlParameter("@contractor_code", SqlDbType.Int);
+            param[3].Value = contractor_code;
+            param[4] = new SqlParameter("@card_no", SqlDbType.VarChar, 50);
+            param[4].Value = card_no;
+            param[5] = new SqlParameter("@bank", SqlDbType.VarChar, 50);
+            param[5].Value = bank;
+
+            DAL.ExecuteCommand("InsertTotb_Transactions_Payment", param);
+            DAL.CloseCon();
         }
 
     }

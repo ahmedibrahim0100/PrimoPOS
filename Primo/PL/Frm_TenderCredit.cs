@@ -5,6 +5,7 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
+using Primo.BL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -198,13 +199,22 @@ namespace Primo.PL
         private void btnConfirm_Click(object sender, EventArgs e)
         {
             //The condition is to finish the whole invoice if the customer pays zero
-            if (txtbxCustomerPaysValue.Text == "0")
+            if (Convert.ToDecimal(txtbxCustomerPaysValue.Text) <= 0)
             {
-
+                Hide();
+                Frm_Invoice.GetFrm_Invoice.SaveInvoiceData();
+                Cls_Transactions _Cls_Transactions = new Cls_Transactions();
+                _Cls_Transactions.InsertTotb_Transactions_Payment(_Cls_Transactions.GetTransactionNo(), Convert.ToDecimal(txtbxContractorPaysValue.Text),
+                    "credit", Convert.ToInt32(Frm_Invoice.GetFrm_Invoice.lblContractorCode.Text),null, null);
+                Frm_Invoice.GetFrm_Invoice.Enabled = false;
+                Frm_PrintQuestion _Frm_PrintQuestion = new Frm_PrintQuestion();
+                _Frm_PrintQuestion.ShowDialog(Frm_Invoice.GetFrm_Invoice);
+                Close();
             }
             else
             {
                 Frm_Tender _Frm_Tender = new Frm_Tender();
+                _Frm_Tender.CreditInvoice = true;
                 _Frm_Tender.txtbxTotal.Text = txtbxCustomerPaysValue.Text;
                 _Frm_Tender.txtbxPaid.Text = txtbxCustomerPaysValue.Text;
                 _Frm_Tender.txtbxCash.Text = txtbxCustomerPaysValue.Text;

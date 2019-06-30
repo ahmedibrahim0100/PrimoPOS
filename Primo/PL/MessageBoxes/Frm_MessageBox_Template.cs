@@ -16,9 +16,9 @@ using System.Windows.Forms;
 
 namespace Primo.PL
 {
-    public partial class Frm_Entry : Syncfusion.Windows.Forms.MetroForm
+    public partial class Frm_MessageBox_Template : Syncfusion.Windows.Forms.MetroForm
     {
-        public Frm_Entry()
+        public Frm_MessageBox_Template()
         {
             InitializeComponent();
         }

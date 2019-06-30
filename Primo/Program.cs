@@ -22,7 +22,7 @@ namespace Primo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PL.Frm_Login());
+            Application.Run(new PL.Frm_Purchasing());
             
         }
 

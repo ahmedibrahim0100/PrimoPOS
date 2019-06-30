@@ -65,7 +65,7 @@ namespace Primo.BL
         }
 
         /// <summary>
-        /// Function to select item using barcode
+        /// Function to select item using barcode, autocode, or part of name
         /// </summary>
         /// <param name="item_identifier"></param>
         /// <returns></returns>
@@ -75,12 +75,31 @@ namespace Primo.BL
             DataTable dt = new DataTable();
             DAL.OpenCon();
             SqlParameter[] param = new SqlParameter[1];
-            param[0] = new SqlParameter("@identifier", SqlDbType.VarChar, 100);
+            param[0] = new SqlParameter("@identifier", SqlDbType.VarChar, 200);
             param[0].Value = item_identifier;
             dt = DAL.SelectData("SelectItem", param);
             DAL.CloseCon();
             return dt;
         }
+
+        /// <summary>
+        /// function to select item for purchasing using barcode, autocode, or part of name
+        /// </summary>
+        /// <param name="item_identifier"></param>
+        /// <returns></returns>
+        public DataTable SelectItemForPurchasing(string item_identifier)
+        {
+            Cls_DataAccessLayer DAL = new Cls_DataAccessLayer();
+            DataTable dt = new DataTable();
+            DAL.OpenCon();
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@identifier", SqlDbType.VarChar, 200);
+            param[0].Value = item_identifier;
+            dt = DAL.SelectData("SelectItemForPurchasing", param);
+            DAL.CloseCon();
+            return dt;
+        }
+
 
         /// <summary>
         /// Function to delete from tb_Quantity_Expire
@@ -176,6 +195,7 @@ namespace Primo.BL
             DAL.ExecuteCommand("DeleteFromtb_QtyEx_Expire", param);
             DAL.CloseCon();
         }
+
 
     }
 

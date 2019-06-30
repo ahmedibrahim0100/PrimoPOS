@@ -36,8 +36,8 @@ namespace Primo.PL
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Tender));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtbxTotal = new System.Windows.Forms.TextBox();
             this.txtbxPaid = new System.Windows.Forms.TextBox();
             this.txtbxChange = new System.Windows.Forms.TextBox();
@@ -47,6 +47,10 @@ namespace Primo.PL
             this.btnConfirm = new Syncfusion.Windows.Forms.ButtonAdv();
             this.btnCancel = new Syncfusion.Windows.Forms.ButtonAdv();
             this.grpbxPayment = new System.Windows.Forms.GroupBox();
+            this.popupContractors = new Syncfusion.Windows.Forms.PopupControlContainer();
+            this.btnClosePopupContractors = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.dgvContractors = new System.Windows.Forms.DataGridView();
+            this.btnPickPopupcontractors = new Syncfusion.Windows.Forms.ButtonAdv();
             this.panelTitleCredit = new System.Windows.Forms.Panel();
             this.lblCredit = new System.Windows.Forms.Label();
             this.panelTitleCards = new System.Windows.Forms.Panel();
@@ -92,11 +96,11 @@ namespace Primo.PL
             this.txtbxCredit = new System.Windows.Forms.TextBox();
             this.txtbxCard_1 = new System.Windows.Forms.TextBox();
             this.txtbxCash = new System.Windows.Forms.TextBox();
-            this.popupContractors = new Syncfusion.Windows.Forms.PopupControlContainer();
-            this.btnClosePopupContractors = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.dgvContractors = new System.Windows.Forms.DataGridView();
-            this.btnPickPopupcontractors = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.lblContractorCode = new System.Windows.Forms.Label();
+            this.lblPointingToContractorCode = new System.Windows.Forms.Label();
             this.grpbxPayment.SuspendLayout();
+            this.popupContractors.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvContractors)).BeginInit();
             this.panelTitleCredit.SuspendLayout();
             this.panelTitleCards.SuspendLayout();
             this.panelTitleCash.SuspendLayout();
@@ -114,8 +118,6 @@ namespace Primo.PL
             ((System.ComponentModel.ISupportInitialize)(this.picbxMaster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbxVisa_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbxVisa)).BeginInit();
-            this.popupContractors.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvContractors)).BeginInit();
             this.SuspendLayout();
             // 
             // txtbxTotal
@@ -123,7 +125,7 @@ namespace Primo.PL
             this.txtbxTotal.Enabled = false;
             this.txtbxTotal.Font = new System.Drawing.Font("Tahoma", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtbxTotal.ForeColor = System.Drawing.Color.Blue;
-            this.txtbxTotal.Location = new System.Drawing.Point(975, 43);
+            this.txtbxTotal.Location = new System.Drawing.Point(994, 43);
             this.txtbxTotal.Name = "txtbxTotal";
             this.txtbxTotal.ReadOnly = true;
             this.txtbxTotal.Size = new System.Drawing.Size(110, 50);
@@ -134,7 +136,7 @@ namespace Primo.PL
             this.txtbxPaid.Enabled = false;
             this.txtbxPaid.Font = new System.Drawing.Font("Tahoma", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtbxPaid.ForeColor = System.Drawing.Color.Blue;
-            this.txtbxPaid.Location = new System.Drawing.Point(974, 115);
+            this.txtbxPaid.Location = new System.Drawing.Point(993, 115);
             this.txtbxPaid.Name = "txtbxPaid";
             this.txtbxPaid.ReadOnly = true;
             this.txtbxPaid.Size = new System.Drawing.Size(110, 50);
@@ -149,7 +151,7 @@ namespace Primo.PL
             this.txtbxChange.Enabled = false;
             this.txtbxChange.Font = new System.Drawing.Font("Tahoma", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtbxChange.ForeColor = System.Drawing.Color.Blue;
-            this.txtbxChange.Location = new System.Drawing.Point(975, 185);
+            this.txtbxChange.Location = new System.Drawing.Point(994, 185);
             this.txtbxChange.Name = "txtbxChange";
             this.txtbxChange.ReadOnly = true;
             this.txtbxChange.Size = new System.Drawing.Size(110, 50);
@@ -186,9 +188,9 @@ namespace Primo.PL
             this.lblChange.ForeColor = System.Drawing.Color.Blue;
             this.lblChange.Location = new System.Drawing.Point(877, 202);
             this.lblChange.Name = "lblChange";
-            this.lblChange.Size = new System.Drawing.Size(83, 25);
+            this.lblChange.Size = new System.Drawing.Size(122, 25);
             this.lblChange.TabIndex = 5;
-            this.lblChange.Text = "Change";
+            this.lblChange.Text = "Cash return";
             // 
             // btnConfirm
             // 
@@ -220,6 +222,8 @@ namespace Primo.PL
             // 
             // grpbxPayment
             // 
+            this.grpbxPayment.Controls.Add(this.lblPointingToContractorCode);
+            this.grpbxPayment.Controls.Add(this.lblContractorCode);
             this.grpbxPayment.Controls.Add(this.popupContractors);
             this.grpbxPayment.Controls.Add(this.panelTitleCredit);
             this.grpbxPayment.Controls.Add(this.panelTitleCards);
@@ -271,6 +275,78 @@ namespace Primo.PL
             this.grpbxPayment.TabIndex = 10;
             this.grpbxPayment.TabStop = false;
             this.grpbxPayment.Text = "Payment";
+            // 
+            // popupContractors
+            // 
+            this.popupContractors.BackColor = System.Drawing.Color.SteelBlue;
+            this.popupContractors.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.popupContractors.Controls.Add(this.btnClosePopupContractors);
+            this.popupContractors.Controls.Add(this.dgvContractors);
+            this.popupContractors.Controls.Add(this.btnPickPopupcontractors);
+            this.popupContractors.Location = new System.Drawing.Point(551, 285);
+            this.popupContractors.Name = "popupContractors";
+            this.popupContractors.Size = new System.Drawing.Size(292, 170);
+            this.popupContractors.TabIndex = 35;
+            this.popupContractors.Visible = false;
+            // 
+            // btnClosePopupContractors
+            // 
+            this.btnClosePopupContractors.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnClosePopupContractors.BeforeTouchSize = new System.Drawing.Size(56, 28);
+            this.btnClosePopupContractors.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnClosePopupContractors.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.btnClosePopupContractors.ForeColor = System.Drawing.Color.White;
+            this.btnClosePopupContractors.IsBackStageButton = false;
+            this.btnClosePopupContractors.Location = new System.Drawing.Point(66, 131);
+            this.btnClosePopupContractors.Name = "btnClosePopupContractors";
+            this.btnClosePopupContractors.Size = new System.Drawing.Size(56, 28);
+            this.btnClosePopupContractors.TabIndex = 3;
+            this.btnClosePopupContractors.Text = "close";
+            this.btnClosePopupContractors.Click += new System.EventHandler(this.btnClosePopupContractors_Click);
+            // 
+            // dgvContractors
+            // 
+            this.dgvContractors.AllowUserToAddRows = false;
+            this.dgvContractors.AllowUserToDeleteRows = false;
+            this.dgvContractors.AllowUserToResizeRows = false;
+            this.dgvContractors.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvContractors.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvContractors.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvContractors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvContractors.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvContractors.Enabled = false;
+            this.dgvContractors.GridColor = System.Drawing.Color.White;
+            this.dgvContractors.Location = new System.Drawing.Point(0, 0);
+            this.dgvContractors.MultiSelect = false;
+            this.dgvContractors.Name = "dgvContractors";
+            this.dgvContractors.RowHeadersVisible = false;
+            this.dgvContractors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvContractors.Size = new System.Drawing.Size(290, 122);
+            this.dgvContractors.TabIndex = 16;
+            this.dgvContractors.DoubleClick += new System.EventHandler(this.dgvContractors_DoubleClick);
+            this.dgvContractors.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvContractors_KeyDown);
+            // 
+            // btnPickPopupcontractors
+            // 
+            this.btnPickPopupcontractors.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnPickPopupcontractors.BeforeTouchSize = new System.Drawing.Size(56, 28);
+            this.btnPickPopupcontractors.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnPickPopupcontractors.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.btnPickPopupcontractors.ForeColor = System.Drawing.Color.White;
+            this.btnPickPopupcontractors.IsBackStageButton = false;
+            this.btnPickPopupcontractors.Location = new System.Drawing.Point(4, 131);
+            this.btnPickPopupcontractors.Name = "btnPickPopupcontractors";
+            this.btnPickPopupcontractors.Size = new System.Drawing.Size(56, 28);
+            this.btnPickPopupcontractors.TabIndex = 2;
+            this.btnPickPopupcontractors.Text = "Pick";
+            this.btnPickPopupcontractors.Click += new System.EventHandler(this.btnPickPopupcontractors_Click);
             // 
             // panelTitleCredit
             // 
@@ -453,7 +529,7 @@ namespace Primo.PL
             // txtbxContractorIdentifier
             // 
             this.txtbxContractorIdentifier.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtbxContractorIdentifier.BeforeTouchSize = new System.Drawing.Size(96, 20);
+            this.txtbxContractorIdentifier.BeforeTouchSize = new System.Drawing.Size(156, 27);
             this.txtbxContractorIdentifier.Location = new System.Drawing.Point(189, 401);
             this.txtbxContractorIdentifier.Metrocolor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(211)))), ((int)(((byte)(212)))));
             this.txtbxContractorIdentifier.Name = "txtbxContractorIdentifier";
@@ -748,77 +824,28 @@ namespace Primo.PL
             this.txtbxCash.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbxCash_KeyDown);
             this.txtbxCash.Validated += new System.EventHandler(this.txtbxCash_Validated);
             // 
-            // popupContractors
+            // lblContractorCode
             // 
-            this.popupContractors.BackColor = System.Drawing.Color.SteelBlue;
-            this.popupContractors.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.popupContractors.Controls.Add(this.btnClosePopupContractors);
-            this.popupContractors.Controls.Add(this.dgvContractors);
-            this.popupContractors.Controls.Add(this.btnPickPopupcontractors);
-            this.popupContractors.Location = new System.Drawing.Point(551, 285);
-            this.popupContractors.Name = "popupContractors";
-            this.popupContractors.Size = new System.Drawing.Size(292, 170);
-            this.popupContractors.TabIndex = 35;
-            this.popupContractors.Visible = false;
+            this.lblContractorCode.AutoSize = true;
+            this.lblContractorCode.ForeColor = System.Drawing.Color.Red;
+            this.lblContractorCode.Location = new System.Drawing.Point(244, 431);
+            this.lblContractorCode.Name = "lblContractorCode";
+            this.lblContractorCode.Size = new System.Drawing.Size(18, 19);
+            this.lblContractorCode.TabIndex = 36;
+            this.lblContractorCode.Text = "0";
+            this.lblContractorCode.Visible = false;
             // 
-            // btnClosePopupContractors
+            // lblPointingToContractorCode
             // 
-            this.btnClosePopupContractors.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnClosePopupContractors.BeforeTouchSize = new System.Drawing.Size(56, 28);
-            this.btnClosePopupContractors.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnClosePopupContractors.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.btnClosePopupContractors.ForeColor = System.Drawing.Color.White;
-            this.btnClosePopupContractors.IsBackStageButton = false;
-            this.btnClosePopupContractors.Location = new System.Drawing.Point(66, 131);
-            this.btnClosePopupContractors.Name = "btnClosePopupContractors";
-            this.btnClosePopupContractors.Size = new System.Drawing.Size(56, 28);
-            this.btnClosePopupContractors.TabIndex = 3;
-            this.btnClosePopupContractors.Text = "close";
-            this.btnClosePopupContractors.Click += new System.EventHandler(this.btnClosePopupContractors_Click);
-            // 
-            // dgvContractors
-            // 
-            this.dgvContractors.AllowUserToAddRows = false;
-            this.dgvContractors.AllowUserToDeleteRows = false;
-            this.dgvContractors.AllowUserToResizeRows = false;
-            this.dgvContractors.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvContractors.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvContractors.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvContractors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvContractors.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvContractors.Enabled = false;
-            this.dgvContractors.GridColor = System.Drawing.Color.White;
-            this.dgvContractors.Location = new System.Drawing.Point(0, 0);
-            this.dgvContractors.MultiSelect = false;
-            this.dgvContractors.Name = "dgvContractors";
-            this.dgvContractors.RowHeadersVisible = false;
-            this.dgvContractors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvContractors.Size = new System.Drawing.Size(290, 122);
-            this.dgvContractors.TabIndex = 16;
-            this.dgvContractors.DoubleClick += new System.EventHandler(this.dgvContractors_DoubleClick);
-            this.dgvContractors.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvContractors_KeyDown);
-            // 
-            // btnPickPopupcontractors
-            // 
-            this.btnPickPopupcontractors.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnPickPopupcontractors.BeforeTouchSize = new System.Drawing.Size(56, 28);
-            this.btnPickPopupcontractors.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnPickPopupcontractors.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.btnPickPopupcontractors.ForeColor = System.Drawing.Color.White;
-            this.btnPickPopupcontractors.IsBackStageButton = false;
-            this.btnPickPopupcontractors.Location = new System.Drawing.Point(4, 131);
-            this.btnPickPopupcontractors.Name = "btnPickPopupcontractors";
-            this.btnPickPopupcontractors.Size = new System.Drawing.Size(56, 28);
-            this.btnPickPopupcontractors.TabIndex = 2;
-            this.btnPickPopupcontractors.Text = "Pick";
-            this.btnPickPopupcontractors.Click += new System.EventHandler(this.btnPickPopupcontractors_Click);
+            this.lblPointingToContractorCode.AutoSize = true;
+            this.lblPointingToContractorCode.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPointingToContractorCode.ForeColor = System.Drawing.Color.Red;
+            this.lblPointingToContractorCode.Location = new System.Drawing.Point(106, 437);
+            this.lblPointingToContractorCode.Name = "lblPointingToContractorCode";
+            this.lblPointingToContractorCode.Size = new System.Drawing.Size(132, 13);
+            this.lblPointingToContractorCode.TabIndex = 37;
+            this.lblPointingToContractorCode.Text = "this is contractor code -->";
+            this.lblPointingToContractorCode.Visible = false;
             // 
             // Frm_Tender
             // 
@@ -826,7 +853,7 @@ namespace Primo.PL
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CaptionButtonColor = System.Drawing.Color.Blue;
             this.CaptionFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ClientSize = new System.Drawing.Size(1101, 488);
+            this.ClientSize = new System.Drawing.Size(1141, 488);
             this.Controls.Add(this.grpbxPayment);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
@@ -844,6 +871,8 @@ namespace Primo.PL
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.grpbxPayment.ResumeLayout(false);
             this.grpbxPayment.PerformLayout();
+            this.popupContractors.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvContractors)).EndInit();
             this.panelTitleCredit.ResumeLayout(false);
             this.panelTitleCredit.PerformLayout();
             this.panelTitleCards.ResumeLayout(false);
@@ -864,8 +893,6 @@ namespace Primo.PL
             ((System.ComponentModel.ISupportInitialize)(this.picbxMaster)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbxVisa_2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbxVisa)).EndInit();
-            this.popupContractors.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvContractors)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -930,5 +957,7 @@ namespace Primo.PL
         private Syncfusion.Windows.Forms.ButtonAdv btnClosePopupContractors;
         private System.Windows.Forms.DataGridView dgvContractors;
         private Syncfusion.Windows.Forms.ButtonAdv btnPickPopupcontractors;
+        private System.Windows.Forms.Label lblPointingToContractorCode;
+        private System.Windows.Forms.Label lblContractorCode;
     }
 }

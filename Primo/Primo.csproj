@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Primo</RootNamespace>
     <AssemblyName>Primo</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +35,13 @@
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetroFramework">
+      <HintPath>..\..\WindowsFormsApplication1\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Diagram.Base, Version=15.3460.0.26, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Diagram.Windows, Version=15.3460.0.26, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
@@ -70,18 +78,21 @@
     <Compile Include="BL\Cls_Items.cs" />
     <Compile Include="BL\Cls_Transactions.cs" />
     <Compile Include="BL\Cls_UserLogin.cs" />
+    <Compile Include="BL\Cls_Vendors.cs" />
     <Compile Include="DAL\Cls_DataAccessLayer.cs" />
+    <Compile Include="Operations\DgvOperation.cs" />
+    <Compile Include="Operations\ScannerOperation.cs" />
     <Compile Include="PL\Frm_CheckSeller.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PL\Frm_CheckSeller.Designer.cs">
       <DependentUpon>Frm_CheckSeller.cs</DependentUpon>
     </Compile>
-    <Compile Include="PL\Frm_Entry.cs">
+    <Compile Include="PL\Frm_ContractorError.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PL\Frm_Entry.Designer.cs">
-      <DependentUpon>Frm_Entry.cs</DependentUpon>
+    <Compile Include="PL\Frm_ContractorError.Designer.cs">
+      <DependentUpon>Frm_ContractorError.cs</DependentUpon>
     </Compile>
     <Compile Include="PL\Frm_Invoice.cs">
       <SubType>Form</SubType>
@@ -101,6 +112,12 @@
     <Compile Include="PL\Frm_Main.Designer.cs">
       <DependentUpon>Frm_Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="PL\MessageBoxes\Frm_MessageBox_Template.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PL\MessageBoxes\Frm_MessageBox_Template.Designer.cs">
+      <DependentUpon>Frm_MessageBox_Template.cs</DependentUpon>
+    </Compile>
     <Compile Include="PL\Frm_PaymentError.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +129,12 @@
     </Compile>
     <Compile Include="PL\Frm_PrintQuestion.Designer.cs">
       <DependentUpon>Frm_PrintQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PL\Frm_Purchasing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PL\Frm_Purchasing.Designer.cs">
+      <DependentUpon>Frm_Purchasing.cs</DependentUpon>
     </Compile>
     <Compile Include="PL\Frm_Tender.cs">
       <SubType>Form</SubType>
@@ -131,13 +154,79 @@
     <Compile Include="PL\Frm_TenderError.Designer.cs">
       <DependentUpon>Frm_TenderError.cs</DependentUpon>
     </Compile>
+    <Compile Include="PL\Frm_TryMaterial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PL\Frm_TryMaterial.Designer.cs">
+      <DependentUpon>Frm_TryMaterial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PL\MessageBoxes\MB_NoItemFound.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PL\MessageBoxes\MB_NoItemFound.Designer.cs">
+      <DependentUpon>MB_NoItemFound.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoContextMenuStripAddView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoContextMenuStripAddView.Designer.cs">
+      <DependentUpon>PrimoContextMenuStripAddView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoDataGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoDataGrid.Designer.cs">
+      <DependentUpon>PrimoDataGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoLabel.Designer.cs">
+      <DependentUpon>PrimoLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoPanel.Designer.cs">
+      <DependentUpon>PrimoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoTextBox.Designer.cs">
+      <DependentUpon>PrimoTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoTotalsTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoTotalsTextBox.Designer.cs">
+      <DependentUpon>PrimoTotalsTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\VendorGroupBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\VendorGroupBox.Designer.cs">
+      <DependentUpon>VendorGroupBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoButton.Designer.cs">
+      <DependentUpon>PrimoButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoColoredTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimoControls\PrimoColoredTextBox.Designer.cs">
+      <DependentUpon>PrimoColoredTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="PL\Frm_CheckSeller.resx">
       <DependentUpon>Frm_CheckSeller.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PL\Frm_Entry.resx">
-      <DependentUpon>Frm_Entry.cs</DependentUpon>
+    <EmbeddedResource Include="PL\Frm_ContractorError.resx">
+      <DependentUpon>Frm_ContractorError.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PL\Frm_Invoice.resx">
       <DependentUpon>Frm_Invoice.cs</DependentUpon>
@@ -148,11 +237,17 @@
     <EmbeddedResource Include="PL\Frm_Main.resx">
       <DependentUpon>Frm_Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PL\MessageBoxes\Frm_MessageBox_Template.resx">
+      <DependentUpon>Frm_MessageBox_Template.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PL\Frm_PaymentError.resx">
       <DependentUpon>Frm_PaymentError.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PL\Frm_PrintQuestion.resx">
       <DependentUpon>Frm_PrintQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PL\Frm_Purchasing.resx">
+      <DependentUpon>Frm_Purchasing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PL\Frm_Tender.resx">
       <DependentUpon>Frm_Tender.cs</DependentUpon>
@@ -163,6 +258,18 @@
     <EmbeddedResource Include="PL\Frm_TenderError.resx">
       <DependentUpon>Frm_TenderError.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PL\Frm_TryMaterial.resx">
+      <DependentUpon>Frm_TryMaterial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PL\MessageBoxes\MB_NoItemFound.resx">
+      <DependentUpon>MB_NoItemFound.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimoControls\VendorGroupBox.resx">
+      <DependentUpon>VendorGroupBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimoControls\PrimoColoredTextBox.resx">
+      <DependentUpon>PrimoColoredTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -171,7 +278,10 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
