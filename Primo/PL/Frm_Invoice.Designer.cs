@@ -36,8 +36,8 @@ namespace Primo.PL
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Invoice));
             this.panelTransaction = new Syncfusion.Windows.Forms.Tools.GradientPanel();
             this.popupContractors = new Syncfusion.Windows.Forms.PopupControlContainer(this.components);
@@ -45,6 +45,7 @@ namespace Primo.PL
             this.dgvContractors = new System.Windows.Forms.DataGridView();
             this.btnPickPopupcontractors = new Syncfusion.Windows.Forms.ButtonAdv();
             this.paneldgvTransaction = new Syncfusion.Windows.Forms.Tools.GradientPanel();
+            this.txtbxItem = new System.Windows.Forms.TextBox();
             this.popupCustomers = new Syncfusion.Windows.Forms.PopupControlContainer();
             this.btnClosePopupCustomers = new Syncfusion.Windows.Forms.ButtonAdv();
             this.dgvCustomers = new System.Windows.Forms.DataGridView();
@@ -115,7 +116,6 @@ namespace Primo.PL
             this.lblSellerName = new System.Windows.Forms.Label();
             this.txtbxSellerID = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtbxItem = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.panelTransaction)).BeginInit();
             this.panelTransaction.SuspendLayout();
             this.popupContractors.SuspendLayout();
@@ -218,14 +218,14 @@ namespace Primo.PL
             this.dgvContractors.AllowUserToResizeRows = false;
             this.dgvContractors.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvContractors.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvContractors.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvContractors.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvContractors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvContractors.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvContractors.Enabled = false;
@@ -267,6 +267,21 @@ namespace Primo.PL
             this.paneldgvTransaction.Name = "paneldgvTransaction";
             this.paneldgvTransaction.Size = new System.Drawing.Size(881, 436);
             this.paneldgvTransaction.TabIndex = 0;
+            // 
+            // txtbxItem
+            // 
+            this.txtbxItem.BackColor = System.Drawing.Color.Blue;
+            this.txtbxItem.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtbxItem.Enabled = false;
+            this.txtbxItem.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.txtbxItem.ForeColor = System.Drawing.Color.White;
+            this.txtbxItem.Location = new System.Drawing.Point(-2, 4);
+            this.txtbxItem.Name = "txtbxItem";
+            this.txtbxItem.ReadOnly = true;
+            this.txtbxItem.Size = new System.Drawing.Size(60, 20);
+            this.txtbxItem.TabIndex = 18;
+            this.txtbxItem.Text = "Item";
+            this.txtbxItem.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // popupCustomers
             // 
@@ -388,14 +403,14 @@ namespace Primo.PL
             this.dgvTransaction.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTransaction.BackgroundColor = System.Drawing.Color.White;
             this.dgvTransaction.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 8F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTransaction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTransaction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvTransaction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTransaction.ContextMenuStrip = this.contextMenuStrip1;
             this.dgvTransaction.GridColor = System.Drawing.Color.BlueViolet;
@@ -463,7 +478,7 @@ namespace Primo.PL
             this.panelTotals.Controls.Add(this.gradientPanel7);
             this.panelTotals.Controls.Add(this.gradientPanel5);
             this.panelTotals.Controls.Add(this.gradientPanel6);
-            this.panelTotals.Location = new System.Drawing.Point(517, 451);
+            this.panelTotals.Location = new System.Drawing.Point(500, 453);
             this.panelTotals.Name = "panelTotals";
             this.panelTotals.Size = new System.Drawing.Size(384, 97);
             this.panelTotals.TabIndex = 13;
@@ -648,15 +663,17 @@ namespace Primo.PL
             this.panelActions.Controls.Add(this.buttonAdv3);
             this.panelActions.Location = new System.Drawing.Point(8, 451);
             this.panelActions.Name = "panelActions";
-            this.panelActions.Size = new System.Drawing.Size(503, 118);
+            this.panelActions.Size = new System.Drawing.Size(486, 118);
             this.panelActions.TabIndex = 14;
             // 
             // btnQuickTender
             // 
-            this.btnQuickTender.BackColor = System.Drawing.Color.Yellow;
+            this.btnQuickTender.BackColor = System.Drawing.Color.Blue;
             this.btnQuickTender.BeforeTouchSize = new System.Drawing.Size(143, 75);
+            this.btnQuickTender.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.btnQuickTender.ForeColor = System.Drawing.Color.White;
             this.btnQuickTender.IsBackStageButton = false;
-            this.btnQuickTender.Location = new System.Drawing.Point(178, 20);
+            this.btnQuickTender.Location = new System.Drawing.Point(160, 22);
             this.btnQuickTender.Name = "btnQuickTender";
             this.btnQuickTender.Size = new System.Drawing.Size(143, 75);
             this.btnQuickTender.TabIndex = 17;
@@ -665,10 +682,12 @@ namespace Primo.PL
             // 
             // buttonAdv4
             // 
-            this.buttonAdv4.BackColor = System.Drawing.Color.Yellow;
+            this.buttonAdv4.BackColor = System.Drawing.Color.Blue;
             this.buttonAdv4.BeforeTouchSize = new System.Drawing.Size(78, 73);
+            this.buttonAdv4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.buttonAdv4.ForeColor = System.Drawing.Color.White;
             this.buttonAdv4.IsBackStageButton = false;
-            this.buttonAdv4.Location = new System.Drawing.Point(418, 18);
+            this.buttonAdv4.Location = new System.Drawing.Point(400, 20);
             this.buttonAdv4.Name = "buttonAdv4";
             this.buttonAdv4.Size = new System.Drawing.Size(78, 73);
             this.buttonAdv4.TabIndex = 16;
@@ -676,10 +695,12 @@ namespace Primo.PL
             // 
             // btnTender
             // 
-            this.btnTender.BackColor = System.Drawing.Color.Yellow;
+            this.btnTender.BackColor = System.Drawing.Color.Blue;
             this.btnTender.BeforeTouchSize = new System.Drawing.Size(143, 75);
+            this.btnTender.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.btnTender.ForeColor = System.Drawing.Color.White;
             this.btnTender.IsBackStageButton = false;
-            this.btnTender.Location = new System.Drawing.Point(21, 18);
+            this.btnTender.Location = new System.Drawing.Point(3, 20);
             this.btnTender.Name = "btnTender";
             this.btnTender.Size = new System.Drawing.Size(143, 75);
             this.btnTender.TabIndex = 0;
@@ -688,10 +709,12 @@ namespace Primo.PL
             // 
             // buttonAdv3
             // 
-            this.buttonAdv3.BackColor = System.Drawing.Color.Yellow;
+            this.buttonAdv3.BackColor = System.Drawing.Color.Blue;
             this.buttonAdv3.BeforeTouchSize = new System.Drawing.Size(78, 73);
+            this.buttonAdv3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.buttonAdv3.ForeColor = System.Drawing.Color.White;
             this.buttonAdv3.IsBackStageButton = false;
-            this.buttonAdv3.Location = new System.Drawing.Point(334, 18);
+            this.buttonAdv3.Location = new System.Drawing.Point(316, 20);
             this.buttonAdv3.Name = "buttonAdv3";
             this.buttonAdv3.Size = new System.Drawing.Size(78, 73);
             this.buttonAdv3.TabIndex = 15;
@@ -707,7 +730,7 @@ namespace Primo.PL
             this.grpbxInvoiceData.ForeColor = System.Drawing.Color.Blue;
             this.grpbxInvoiceData.Location = new System.Drawing.Point(907, 0);
             this.grpbxInvoiceData.Name = "grpbxInvoiceData";
-            this.grpbxInvoiceData.Size = new System.Drawing.Size(256, 572);
+            this.grpbxInvoiceData.Size = new System.Drawing.Size(253, 572);
             this.grpbxInvoiceData.TabIndex = 2;
             this.grpbxInvoiceData.TabStop = false;
             this.grpbxInvoiceData.Text = "Invoice Data";
@@ -729,7 +752,7 @@ namespace Primo.PL
             this.groupBox3.Controls.Add(this.radioCredit);
             this.groupBox3.Controls.Add(this.radioDelivery);
             this.groupBox3.Controls.Add(this.radioOnTime);
-            this.groupBox3.Location = new System.Drawing.Point(6, 341);
+            this.groupBox3.Location = new System.Drawing.Point(4, 341);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(237, 216);
             this.groupBox3.TabIndex = 2;
@@ -920,7 +943,7 @@ namespace Primo.PL
             this.grpbxCustomer.Controls.Add(this.lblCustomerName);
             this.grpbxCustomer.Controls.Add(this.txtbxCustomerIdentification);
             this.grpbxCustomer.Controls.Add(this.lblCustomerIdentification);
-            this.grpbxCustomer.Location = new System.Drawing.Point(6, 94);
+            this.grpbxCustomer.Location = new System.Drawing.Point(4, 94);
             this.grpbxCustomer.Name = "grpbxCustomer";
             this.grpbxCustomer.Size = new System.Drawing.Size(237, 244);
             this.grpbxCustomer.TabIndex = 1;
@@ -1078,7 +1101,7 @@ namespace Primo.PL
             this.grpbxSeller.Controls.Add(this.lblSellerName);
             this.grpbxSeller.Controls.Add(this.txtbxSellerID);
             this.grpbxSeller.Controls.Add(this.label1);
-            this.grpbxSeller.Location = new System.Drawing.Point(6, 11);
+            this.grpbxSeller.Location = new System.Drawing.Point(4, 11);
             this.grpbxSeller.Name = "grpbxSeller";
             this.grpbxSeller.Size = new System.Drawing.Size(237, 80);
             this.grpbxSeller.TabIndex = 0;
@@ -1139,21 +1162,6 @@ namespace Primo.PL
             this.label1.Size = new System.Drawing.Size(18, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "ID";
-            // 
-            // txtbxItem
-            // 
-            this.txtbxItem.BackColor = System.Drawing.Color.Blue;
-            this.txtbxItem.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtbxItem.Enabled = false;
-            this.txtbxItem.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.txtbxItem.ForeColor = System.Drawing.Color.White;
-            this.txtbxItem.Location = new System.Drawing.Point(-2, 4);
-            this.txtbxItem.Name = "txtbxItem";
-            this.txtbxItem.ReadOnly = true;
-            this.txtbxItem.Size = new System.Drawing.Size(60, 20);
-            this.txtbxItem.TabIndex = 18;
-            this.txtbxItem.Text = "Item";
-            this.txtbxItem.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Frm_Invoice
             // 
